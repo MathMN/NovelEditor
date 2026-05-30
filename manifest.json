@@ -1,0 +1,23 @@
+{
+  "name": "Novel Editor",
+  "short_name": "Editor",
+  "description": "Uma experiência de escrita minimalista desktop e mobile offline.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fcfcfc",
+  "theme_color": "#2c2e33",
+  "icons": [
+    {
+      "src": "writeIcon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "writeIcon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

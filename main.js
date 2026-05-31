@@ -16,6 +16,8 @@ const restoreBtn = document.getElementById('restore-btn');
 const themeToggle = document.getElementById('theme-toggle');
 const zoomInBtn = document.getElementById('zoom-in');
 const zoomOutBtn = document.getElementById('zoom-out');
+const undoBtn = document.getElementById('undo-btn');
+const redoBtn = document.getElementById('redo-btn');
 const editorWrapper = document.querySelector('.editor-wrapper');
 
 // Note UI Elements
@@ -108,13 +110,15 @@ editor.addEventListener('paste', (e) => {
     let text = (e.originalEvent || e).clipboardData.getData('text/plain');
     
     // Normalize newlines: turn double-newlines (common in MD) into single ones
-    // so the browser's insertParagraph/insertText doesn't create extra empty paragraphs.
     text = text.replace(/\r?\n\s*\r?\n/g, '\n');
     
     // Snapshot existing splits to identify ghosts after paste
     const originalSplits = Array.from(editor.querySelectorAll('.batch-split'));
     
-    document.execCommand('insertText', false, text);
+    // Use insertHTML with <br> instead of insertText to fix iOS Safari stripping line breaks
+    let htmlText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    htmlText = htmlText.replace(/\n/g, '<br>');
+    document.execCommand('insertHTML', false, htmlText);
     
     // Cleanup any ghost classes cloned by the browser during paste
     const currentParagraphs = Array.from(editor.querySelectorAll('p'));
@@ -971,3 +975,6 @@ themeToggle.addEventListener('click', () => {
 });
 zoomInBtn.addEventListener('click', () => { if (currentFontSize < 3) { setEditorFontSize(currentFontSize + 0.1); renderGutter(); } });
 zoomOutBtn.addEventListener('click', () => { if (currentFontSize > 0.8) { setEditorFontSize(currentFontSize - 0.1); renderGutter(); } });
+
+if (undoBtn) undoBtn.addEventListener('click', () => { document.execCommand('undo'); editor.focus(); });
+if (redoBtn) redoBtn.addEventListener('click', () => { document.execCommand('redo'); editor.focus(); });

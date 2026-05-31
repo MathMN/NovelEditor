@@ -42,8 +42,14 @@ let dirHandle = null;
 let backupFileHandle = null;
 let commentsFileHandle = null;
 
+function setEditorFontSize(size) {
+    currentFontSize = size;
+    localStorage.setItem('novel_editor_font_size', currentFontSize);
+    editor.style.setProperty('font-size', currentFontSize + 'rem', 'important');
+}
+
 // Apply saved font size
-editor.style.fontSize = currentFontSize + 'rem';
+setEditorFontSize(currentFontSize);
 
 function init() {
     const hasNewBackup = localStorage.getItem('novel_editor_backup_text');
@@ -703,6 +709,7 @@ gutter.addEventListener('mouseleave', () => {
 
 // --- Drag & Drop ---
 
+document.addEventListener('dragenter', (e) => { e.preventDefault(); dropOverlay.classList.remove('hidden'); });
 document.addEventListener('dragover', (e) => { e.preventDefault(); dropOverlay.classList.remove('hidden'); });
 document.addEventListener('dragleave', (e) => { e.preventDefault(); if (e.relatedTarget === null || e.relatedTarget.nodeName === 'HTML') dropOverlay.classList.add('hidden'); });
 document.addEventListener('drop', async (e) => {
@@ -962,5 +969,5 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('theme-dark');
     document.body.classList.toggle('theme-light');
 });
-zoomInBtn.addEventListener('click', () => { if (currentFontSize < 3) { currentFontSize += 0.1; editor.style.fontSize = currentFontSize + 'rem'; localStorage.setItem('novel_editor_font_size', currentFontSize); renderGutter(); } });
-zoomOutBtn.addEventListener('click', () => { if (currentFontSize > 0.8) { currentFontSize -= 0.1; editor.style.fontSize = currentFontSize + 'rem'; localStorage.setItem('novel_editor_font_size', currentFontSize); renderGutter(); } });
+zoomInBtn.addEventListener('click', () => { if (currentFontSize < 3) { setEditorFontSize(currentFontSize + 0.1); renderGutter(); } });
+zoomOutBtn.addEventListener('click', () => { if (currentFontSize > 0.8) { setEditorFontSize(currentFontSize - 0.1); renderGutter(); } });

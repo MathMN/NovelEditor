@@ -115,9 +115,10 @@ editor.addEventListener('paste', (e) => {
     // Snapshot existing splits to identify ghosts after paste
     const originalSplits = Array.from(editor.querySelectorAll('.batch-split'));
     
-    // Use insertHTML with <br> instead of insertText to fix iOS Safari stripping line breaks
+    // Use insertHTML with </p><p> to properly create new paragraphs on all platforms (fixes iOS stripping).
+    // The previous regex already ensures we don't get empty ghost paragraphs from double newlines.
     let htmlText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    htmlText = htmlText.replace(/\n/g, '<br>');
+    htmlText = htmlText.replace(/\n/g, '</p><p>');
     document.execCommand('insertHTML', false, htmlText);
     
     // Cleanup any ghost classes cloned by the browser during paste

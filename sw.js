@@ -1,4 +1,4 @@
-const CACHE_NAME = 'novel-editor-unified-v16';
+const CACHE_NAME = 'novel-editor-unified-v18';
 const ASSETS = [
   './',
   './index.html',

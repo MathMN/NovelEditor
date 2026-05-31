@@ -813,11 +813,7 @@ body.theme-dark .moon-icon {
         padding: 0.4rem;
     }
     #file-name {
-        font-size: 0.8rem;
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        display: none;
     }
     
     /* 2. Manuscript Container Adjustments */

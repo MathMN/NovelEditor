@@ -238,6 +238,17 @@ function refreshSplitsUI() {
                 zone.contentEditable = false;
                 zone.addEventListener('click', (e) => {
                     e.stopPropagation();
+
+                    if (isMobile) {
+                        const now = Date.now();
+                        const lastClick = parseInt(zone.getAttribute('data-last-click')) || 0;
+                        if (now - lastClick > 400) {
+                            zone.setAttribute('data-last-click', now);
+                            return; // Require double tap on mobile
+                        }
+                        zone.setAttribute('data-last-click', 0);
+                    }
+
                     if (p.classList.contains('batch-split')) {
                         p.classList.remove('batch-split');
                     } else {
